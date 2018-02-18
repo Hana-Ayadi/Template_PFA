@@ -6,7 +6,7 @@
         <toolbar class="toolbar column" :zoom="zoom"></toolbar>
         <div class="viewport column">
           <viewport :zoom="zoom"></viewport>
-          <div class="zoom-wrap">
+          <div class="zoom-wrap">npm
             <slider @input="dozoom" :value="zoom" :step="1" :tuning="false" />
             <div class="zoom-value">{{ zoom }}%</div>
           </div>
@@ -53,7 +53,7 @@ export default {
     Vue.use(widget, {
       widgets: this.widgets
     })
-    // 初始化已有数据
+    // Initialiser les données existantes
     if (this.value) {
       store.replaceState(this.value)
     }
@@ -62,7 +62,7 @@ export default {
     })
   },
   mounted () {
-    // 初始化选中元件（将页面作为初始选中元件）
+    // Initialiser le composant sélectionné (la page en tant que composants sélectionnés initiaux)
     this.$store.commit('initActive')
   },
 
@@ -116,7 +116,7 @@ export default {
   user-select: none;
   &.column {
     flex: none;
-    width: 400px;
+    width: 300px;
   }
 }
 .zoom-wrap {

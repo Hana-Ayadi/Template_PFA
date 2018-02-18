@@ -10,10 +10,10 @@
 
     <div class="panel-row">
       <icon name="film" />
-      <div class="panel-label">选择动画</div>
+      <div class="panel-label">Animation</div>
       <div class="panel-value">
         <select v-model="currentName">
-          <option value="">无</option>
+          <option value="">Aucun</option>
           <option v-for="(val, index) in animationNames" :key="index" :value="val">{{ val }}</option>
         </select>
       </div>
@@ -23,39 +23,39 @@
       <hr>
       <div class="panel-row">
         <icon name="type" />
-        <div class="panel-label">动画名称</div>
+        <div class="panel-label">Nom</div>
         <div class="panel-value">
-          <input type="text" v-model.trim="currentAnimation.name" @input="validateName" placeholder="动画名称，仅限英文">
+          <input type="text" v-model.trim="currentAnimation.name" @input="validateName" placeholder="Nom de l'animation">
         </div>
       </div>
 
       <div class="panel-row">
         <icon name="clock" />
-        <div class="panel-label">动画时长</div>
+        <div class="panel-label">Durée</div>
         <div class="panel-value">
-          <input type="text" v-model.number="currentAnimation.duration" placeholder="请输入大于0的数字">
+          <input type="text" v-model.number="currentAnimation.duration" placeholder="Veuillez entrer un nombre supérieur à 0">
         </div>
       </div>
 
       <div class="panel-row">
         <icon name="watch" />
-        <div class="panel-label">动画延迟</div>
+        <div class="panel-label">Délai</div>
         <div class="panel-value">
-          <input type="text" v-model.number="currentAnimation.delay" placeholder="请输入不小于0的数字">
+          <input type="text" v-model.number="currentAnimation.delay" placeholder="Veuillez entrer un nombre au moins égal à 0">
         </div>
       </div>
 
       <div class="panel-row">
         <icon name="repeat" />
-        <div class="panel-label">动画循环</div>
+        <div class="panel-label">Boucle</div>
         <div class="panel-value">
-          <input type="text" v-model.number="currentAnimation.iteration" placeholder="输入0表示无限循环">
+          <input type="text" v-model.number="currentAnimation.iteration" placeholder="Entrez 0 pour une boucle infinie">
         </div>
       </div>
 
       <div class="panel-row">
         <icon name="activity" />
-        <div class="panel-label">缓动函数</div>
+        <div class="panel-label">Accélération</div>
         <div class="panel-value">
           <select v-model="currentAnimation.timing">
             <option>linear</option>
@@ -69,7 +69,7 @@
 
       <div class="panel-row">
         <icon name="rotate-cw" />
-        <div class="panel-label">动画方向</div>
+        <div class="panel-label">Direction</div>
         <div class="panel-value">
           <select v-model="currentAnimation.direction">
             <option>normal</option>
@@ -107,7 +107,7 @@
         <textarea placeholder="IMPORTANT: use rem, not px" v-model="val.css"></textarea>
         <div style="margin: 10px 0 0 20px;">
           <button v-if="i + 1 === currentAnimation.keyframes.length" class="btn btn-primary" @click="addkeyframe">
-            <icon name="plus" /> 添加新的动画
+            <icon name="plus" /> Nouvelle animation
           </button>
         </div>
       </div>
@@ -142,7 +142,7 @@ export default {
       // 检查是否存在未命名动画，避免重复添加
       if (this.$store.state.animation.some(val => val.name === '')) {
         this.$store.$emit('notify', {
-          info: '还有未命名动画，请先命名'
+          info: 'Il y a des animations sans nom, merci de les nommer'
         })
         return
       }
@@ -160,7 +160,7 @@ export default {
       var name = this.currentAnimation.name
       if (name === '') {
         this.$store.$emit('notify', {
-          info: '请先为动画命名'
+          info: 'Veuillez d\'abord nommer l\'animation'
         })
         return
       }
@@ -229,7 +229,7 @@ export default {
 
   watch: {
     currentName: function (val) {
-      // 设置选中元件的动画名称
+      // Définir le nom de l'animation du composant sélectionné
       if (this.activeElement.animationName !== undefined) {
         this.activeElement.animationName = val
       }

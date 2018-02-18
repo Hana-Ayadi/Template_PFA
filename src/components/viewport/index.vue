@@ -8,7 +8,7 @@
         transform: 'scale(' + zoom / 100 + ')'
       }">
 
-      <!-- 组件 -->
+      <!-- Composant -->
       <component
         :is="val.type"
         :data-title="val.type"
@@ -38,10 +38,10 @@
           :playState="playState" />
       </component>
 
-      <!-- 参考线 -->
+      <!-- Ligne de référence -->
       <ref></ref>
 
-      <!-- 尺寸控制器 -->
+      <!-- Contrôleur de taille -->
       <control></control>
     </div>
   </div>
@@ -151,7 +151,7 @@ export default {
   },
 
   computed: {
-    // 已添加的组件
+    // Composant ajouté
     widgetStore () {
       return this.$store.state.widgets.filter(item => item.belong === 'page')
     },
@@ -210,7 +210,7 @@ export default {
   background-size: 26px 26px;
 }
 .screen {
-  width: 750px;
+  width: 950px;
   margin: 25px auto;
   transform-origin: center top;
   position: relative;

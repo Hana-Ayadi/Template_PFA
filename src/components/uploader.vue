@@ -1,5 +1,5 @@
 <template>
-  <input type="file" accept="image/png, image/jpeg, image/gif"
+  <input type="file" accept="image/png, image/jpeg, image/gif,.ppt, .pptx"
     :multiple="multiple ? 'multiple' : false"
     id="uploader"
     style="display: none"
@@ -49,7 +49,7 @@ export default {
   },
 
   methods: {
-    // 处理添加图片操作，触发事件：change
+    // Traitement d'ajout d'image, événement déclencheur：change
     handleUpload () {
       var files = this.uploader.files
 
