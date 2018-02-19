@@ -20,66 +20,66 @@
 
 <script>
     export default {
-        mounted () {
+      mounted () {
             // Ctrl + C 复制元件
-            document.addEventListener(
+        document.addEventListener(
                 'keyup',
                 e => {
-                    e.stopPropagation()
-                    if ((e.ctrlKey || e.metaKey) && e.keyCode === 67) {
-                        this.copyWidget()
-                    }
+                  e.stopPropagation()
+                  if ((e.ctrlKey || e.metaKey) && e.keyCode === 67) {
+                    this.copyWidget()
+                  }
                 },
                 true
             )
 
             // Delete 删除选中元件
-            document.addEventListener(
+        document.addEventListener(
                 'keyup',
                 e => {
-                    e.stopPropagation()
-                    if (e.keyCode === 46) {
-                        this.dele()
-                    }
+                  e.stopPropagation()
+                  if (e.keyCode === 46) {
+                    this.dele()
+                  }
                 },
                 true
             )
 
             // Ctrl + S 保存
-            document.addEventListener(
+        document.addEventListener(
                 'keyup',
                 e => {
-                    e.stopPropagation()
-                    if ((e.ctrlKey || e.metaKey) && e.keyCode === 83) {
-                        this.save()
-                    }
+                  e.stopPropagation()
+                  if ((e.ctrlKey || e.metaKey) && e.keyCode === 83) {
+                    this.save()
+                  }
                 },
                 true
             )
-        },
+      },
 
-        methods: {
+      methods: {
             // 保存
-            save () {
-                this.$store.dispatch('save')
-            },
+        save () {
+          this.$store.dispatch('save')
+        },
 
             // 复制元件
-            copyWidget () {
-                this.$store.commit('copy')
-            },
-
-            // 删除元件
-            dele () {
-                this.$store.commit('delete')
-            }
+        copyWidget () {
+          this.$store.commit('copy')
         },
 
-        computed: {
-            show () {
-                return this.$store.state.type !== 'page'
-            }
+            // 删除元件
+        dele () {
+          this.$store.commit('delete')
         }
+      },
+
+      computed: {
+        show () {
+          return this.$store.state.type !== 'page'
+        }
+      }
     }
 </script>
 

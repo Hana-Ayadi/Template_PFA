@@ -1,7 +1,7 @@
 <template>
   <div class="menu-bar">
     <details open>
-      <summary><icon name="list" />Actions Disponible</summary>
+      <summary><icon name="list" />Actions</summary>
       <ul class="widget-list columns" @mousedown="updateSrollTop">
         <li class="menu-item column col-6" @click="(e) => {addWidget(e, item)}" v-for="item in widgets" :key="item.name">
           <icon :svg="item.icon" :title="item.title" />
@@ -19,47 +19,47 @@
     import { cumulativeOffset, checkInView } from '../utils/offset'
 
     export default {
-        mixins: [move],
-        props: ['zoom'],
-        data () {
-            return {}
+      mixins: [move],
+      props: ['zoom'],
+      data () {
+        return {}
+      },
+      computed: {
+        widgets () {
+          return widget.getWidgets()
         },
-        computed: {
-            widgets () {
-                return widget.getWidgets()
-            },
-            layers () {
-                return this.$store.state.widgets
-            },
-            activeElement () {
-                return this.$store.state.activeElement
-            }
+        layers () {
+          return this.$store.state.widgets
         },
-        methods: {
-
-            addWidget (e, item) {
-                this.$store.dispatch('addWidget', item)
-            },
-            updateSrollTop () {
-                var top = document.getElementById('viewport').scrollTop / this.zoom * 100
-                this.$store.commit('updateSrollTop', top)
-            },
-
-            activeLayer (e, item) {
-                this.$store.commit('select', {
-                    uuid: item.uuid
-                })
-                let viewport = document.querySelector('#viewport')
-                let target = viewport.querySelector(`[data-uuid='${item.uuid}']`)
-                if (target && !checkInView(target)) {
-                    viewport.scrollTop = (cumulativeOffset(target).top - 50) * this.zoom / 100
-                }
-            },
-
-            getWidgetTitle (type) {
-                return this.widgets[type].title || ''
-            }
+        activeElement () {
+          return this.$store.state.activeElement
         }
+      },
+      methods: {
+
+        addWidget (e, item) {
+          this.$store.dispatch('addWidget', item)
+        },
+        updateSrollTop () {
+          var top = document.getElementById('viewport').scrollTop / this.zoom * 100
+          this.$store.commit('updateSrollTop', top)
+        },
+
+        activeLayer (e, item) {
+          this.$store.commit('select', {
+            uuid: item.uuid
+          })
+          let viewport = document.querySelector('#viewport')
+          let target = viewport.querySelector(`[data-uuid='${item.uuid}']`)
+          if (target && !checkInView(target)) {
+            viewport.scrollTop = (cumulativeOffset(target).top - 50) * this.zoom / 100
+          }
+        },
+
+        getWidgetTitle (type) {
+          return this.widgets[type].title || ''
+        }
+      }
     }
 </script>
 
