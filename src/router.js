@@ -4,7 +4,7 @@ import FullExampleComponent from './components/Full'
 
 // Vue.use(VueRouter)
 
-const examples = [
+let examples = [
   {
     path: '',
     component: FullExampleComponent
@@ -16,6 +16,8 @@ const examples = [
 ]
 
 const router = new VueRouter({
-  examples
+  routes: [
+        {examples}
+  ]
 })
 export default router

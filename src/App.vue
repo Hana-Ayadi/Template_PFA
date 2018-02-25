@@ -47,8 +47,8 @@
                                 <div :class="{'progress-bar': true, 'progress-bar-striped': true, 'bg-danger': file.error, 'progress-bar-animated': file.active}" role="progressbar" :style="{width: file.progress + '%'}">{{file.progress}}%</div>
                             </div>
                         </td>
-                        <td>{{file.size | formatSize}}</td>
-                        <td>{{file.speed | formatSize}}</td>
+                        <!--<td>{{file.size | formatSize}}</td>
+                        <td>{{file.speed | formatSize}}</td>-->
 
                         <td v-if="file.error">{{file.error}}</td>
                         <td v-else-if="file.success">success</td>
@@ -168,7 +168,7 @@
             <div class="form-group">
                 <label for="autoCompress">Automatically compress:</label>
                 <input type="number" min="0" id="autoCompress" class="form-control" v-model.number="autoCompress">
-                <small class="form-text text-muted" v-if="autoCompress > 0">More than {{autoCompress | formatSize}} files are automatically compressed</small>
+                <small class="form-text text-muted" v-if="autoCompress > 0">More than {{autoCompress }} files are automatically compressed</small>
                 <small class="form-text text-muted" v-else>Set up automatic compression</small>
             </div>
 
@@ -301,6 +301,10 @@
         <div class="pt-5">
             Source code: <a href="https://github.com/lian-yue/vue-upload-component/blob/master/docs/views/examples/Full.vue">/docs/views/examples/Full.vue</a>
         </div>
+        <div id="example-1">
+            <button v-on:click="counter += 1">Add 1</button>
+            <p>Le bouton ci-dessus a été cliqué {{ counter }} fois.</p>
+        </div>
 
     </div>
 </template>
@@ -385,6 +389,7 @@
     import Cropper from 'cropperjs'
     import ImageCompressor from '@xkeshi/image-compressor'
     import FileUpload from 'vue-upload-component'
+
     export default {
       components: {
         FileUpload
@@ -392,6 +397,7 @@
 
       data () {
         return {
+          counter: 0,
           files: [],
           accept: 'image/png,image/gif,image/jpeg,image/webp,.pptx,.ppt',
           extensions: 'gif,jpg,jpeg,png,webp,pptx,ppt',

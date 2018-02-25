@@ -19,5 +19,4 @@ Vue.component('popbox', popbox)
 Vue.component('icon', icon)
 
 Vue.component('file-upload', VueUploadComponent)
-
 export default App
