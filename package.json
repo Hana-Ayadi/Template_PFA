@@ -26,10 +26,15 @@
   },
   "author": "fireyy <fireyy@gmail.com>",
   "dependencies": {
+    "@xkeshi/image-compressor": "^0.5.3",
+    "bootstrap": "^4.0.0-alpha.6",
+    "cropperjs": "^1.3.0",
     "nanoid": "^1.0.1",
     "spectre.css": "^0.5.0",
     "vue": "^2.5.11",
+    "vue-awesome": "^2.3.4",
     "vue-page-designer-widgets": "^0.1.1",
+    "vue-router": "^3.0.1",
     "vue-upload-component": "^2.8.3"
   },
   "devDependencies": {
