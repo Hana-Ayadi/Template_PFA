@@ -1,13 +1,15 @@
 <template>
   <div>
     <ul class="tab tab-block panel-tab">
-      <li class="tab-item" :class="{active: activeTab === 1}" @click="activeTab = 1"><a>Paramètres</a></li>
-      <li class="tab-item" :class="{active: activeTab === 2}" @click="activeTab = 2"><a>Interaction</a></li>
+      <li class="tab-item" :class="{active: activeTab === 1}" @click="activeTab = 1"><a>Diapositives</a></li>
     </ul>
-
-    <page :activeElement="activeElement" :tab="activeTab"></page>
+     <images/>
+    <!--<page :activeElement="activeElement" :tab="activeTab"></page>-->
     <appearance :activeElement="activeElement" :tab="activeTab"></appearance>
-    <event :activeElement="activeElement" :tab="activeTab"></event>
+    <event :activeElement="activeElement" :tab="activeTab">
+
+    </event>
+
   </div>
 </template>
 
@@ -16,10 +18,12 @@ import page from './page.vue'
 import style from './style.vue'
 import event from './event.vue'
 import animation from './animation.vue'
+import images from './images'
 
 export default {
   components: {
     page: page,
+    images: images,
     appearance: style,
     event: event,
     animation: animation

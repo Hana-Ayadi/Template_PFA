@@ -9,7 +9,7 @@
       }">
 
       <!-- Composant -->
-      <component
+      <component id="image1"
         :is="val.type"
         :data-title="val.type"
         class="layer"
@@ -21,28 +21,31 @@
         :w="750"
         :data-type="val.type"
         :data-uuid="val.uuid"
-        :playState="playState">
+        :playState="playState"
+        :style="{backgroundImage: 'url('+currentImage+')'}"
+      >
+        <!-- require('../../../assets/'+backgroundID+'.png') -->
         <component
-          v-if="val.isContainer"
-          :is="child.type"
-          :data-title="child.type"
-          class="layer layer-child"
-          :class="{'g-active': id === child.uuid}"
-          v-for="child in getChilds(val.name)"
-          :key="child.uuid"
-          :val="child"
-          :h="height"
-          :w="750"
-          :data-type="child.type"
-          :data-uuid="child.uuid"
-          :playState="playState" />
+                v-if="val.isContainer"
+                :is="child.type"
+                :data-title="child.type"
+                class="layer layer-child"
+                :class="{'g-active': id === child.uuid}"
+                v-for="child in getChilds(val.name)"
+                :key="child.uuid"
+                :val="child"
+                :h="height"
+                :w="750"
+                :data-type="child.type"
+                :data-uuid="child.uuid"
+                :playState="playState"
+        />
       </component>
-
       <!-- Ligne de référence -->
-      <ref></ref>
+      <ref/>
 
       <!-- Contrôleur de taille -->
-      <control></control>
+      <control/>
     </div>
   </div>
 </template>
@@ -55,25 +58,26 @@ import { move } from '../../mixins'
 export default {
   name: 'viewport',
   components: {
-    ref: ref, // 参考线
-    control: control // 尺寸控制
+    ref: ref, // Ligne de référence
+    control: control // Contrôle de taille
   },
 
   mixins: [move],
 
-  props: ['zoom'],
+  props: ['zoom','currentImage'],
 
   data () {
-    return {}
+    return {
+    }
   },
 
   mounted () {
-    // 采用事件代理的方式监听元件的选中操作
+    // Utiliser l'agent d'événement pour surveiller l'opération sélectionnée du composant
     document
       .getElementById('viewport')
       .addEventListener('mousedown', this.handleSelection, false)
 
-    // 绑定键盘上下左右键用于元件的移动
+    // Clavier attaché vers le haut, le bas, la gauche et la droite pour le mouvement des composants
     document.addEventListener(
       'keydown',
       e => {
@@ -108,6 +112,7 @@ export default {
   },
 
   methods: {
+
     handleSelection (e) {
       var target = e.target
       var type = target.getAttribute('data-type')
@@ -115,7 +120,7 @@ export default {
       if (type) {
         var uuid = target.getAttribute('data-uuid')
 
-        // 设置选中元素
+        // Définir l'élément sélectionné
         this.$store.commit('select', {
           uuid: uuid || -1
         })
@@ -133,7 +138,7 @@ export default {
       }
     },
 
-    // 替换图片
+    // Remplacer l'image
     replaceImage (e) {
       if (this.$store.state.activeElement.isUpload) {
         this.$store.$emit('upload', payload => {
@@ -142,7 +147,7 @@ export default {
       }
     },
 
-    // 获取子组件
+    // Obtenir des composants enfants
     getChilds (name) {
       return this.$store.state.widgets.filter(
         item => item.belong === name

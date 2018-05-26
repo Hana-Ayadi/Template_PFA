@@ -175,7 +175,7 @@ export default {
           this.currentAnimation.name = ''
         })
         this.$store.$emit('notify', {
-          info: '动画名称必须以英文开头'
+          info: 'Le nom de l\'animation doit commencer par l\'anglais'
         })
       }
 
@@ -184,7 +184,7 @@ export default {
           this.currentAnimation.name = value.replace(/\W/g, '')
         })
         this.$store.$emit('notify', {
-          info: '请勿使用英文和数字以外的字符'
+          info: 'N\'utilisez pas de caractères autres que l\'anglais et les chiffres'
         })
       }
     },

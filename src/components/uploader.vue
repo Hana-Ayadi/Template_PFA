@@ -105,8 +105,8 @@ export default {
             width: size.w,
             height: size.h,
             top: this.top,
-            url: url, // 图片预览地址
-            src: 'images/' + files[i].name // 图片实际地址
+            url: url, // Adresse d'aperçu de l'image
+            src: 'images/' + files[i].name // Adresse réelle de l'image
           })
 
           // 所有图片下载完毕，跳到下一步，否则继续下载

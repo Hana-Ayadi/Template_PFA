@@ -20,20 +20,19 @@
 </template>
 <script>
     import Vue from 'vue'
-    import store from './store'
-    import widget from './plugins/widget'
-    import navbar from './components/navbar.vue'
-    import toolbar from './components/toolbar.vue'
-    import panel from './components/panel/index.vue'
-    import viewport from './components/viewport/index.vue'
-    import slider from './components/slider.vue'
-    import toast from './components/toast.vue'
-    import uploader from './components/uploader.vue'
-    import popbox from './components/popbox.vue'
-    import icon from './components/icon.vue'
+    import store from '../store'
+    import widget from '../plugins/widget'
+    import navbar from './navbar.vue'
+    import toolbar from './toolbar.vue'
+    import panel from './panel/index.vue'
+    import viewport from './viewport/index.vue'
+    import slider from './slider.vue'
+    import toast from './toast.vue'
+    import uploader from './uploader.vue'
+    import popbox from './popbox.vue'
+    import icon from './icon.vue'
 
-    import loadSprite from './utils/load-sprite'
-    console.log('App vue')
+    import loadSprite from '../utils/load-sprite'
     export default {
       name: 'vue-page-designer',
       store,

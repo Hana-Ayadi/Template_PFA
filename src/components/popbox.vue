@@ -9,7 +9,7 @@
         <slot>{{ content }}</slot>
       </div>
       <div class='footer'>
-        <button class="btn" @click="confirm">确定</button>
+        <button class="btn" @click="confirm">OK</button>
         <button class="btn" @click="close">取消</button>
       </div>
     </div>

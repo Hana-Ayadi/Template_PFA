@@ -218,6 +218,10 @@ export default {
     state.playState = status
   },
 
+  // 动画的播放与停止
+  setCurrentImage (state, status) {
+    state.currentImage = status
+  },
   // 更新数据
   updateData (state, {uuid, key, value}) {
     let widget = state.widgets.find(w => w.uuid === uuid)

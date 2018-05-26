@@ -1,6 +1,6 @@
 <template>
   <div class="guides" v-show="moving">
-    <!-- 横线 -->
+    <!-- Ligne horizontale -->
     <div class="horiz" :key="val.id" v-for="val in horiz"
       :style="{top: val.val + 'px'}"
       v-show="attachHoriz(val.val)"></div>

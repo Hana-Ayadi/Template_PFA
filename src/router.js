@@ -1,23 +1,30 @@
-// import Vue from 'vue'
 import VueRouter from 'vue-router'
-import FullExampleComponent from './components/Full'
-
-// Vue.use(VueRouter)
+// import FullExampleComponent from './components/Full'
+import upload from './components/upload'
+import slider from './components/design'
 
 let examples = [
   {
-    path: '',
-    component: FullExampleComponent
+    path: '/',
+    component: upload
   },
   {
-    path: 'full',
-    component: FullExampleComponent
+    path: '/slider',
+    component: slider
+  },
+  {
+    path: '/full',
+    name: 'design',
+    component: slider
+  },
+  {
+    path: '/upload',
+    component: upload
   }
 ]
 
 const router = new VueRouter({
-  routes: [
-        {examples}
-  ]
+  mode: 'hash',
+  routes: examples
 })
 export default router

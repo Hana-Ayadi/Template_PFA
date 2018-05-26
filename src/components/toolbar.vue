@@ -122,4 +122,5 @@
       }
     }
   }
+  .control-panel.column{-webkit-box-flex:0;-ms-flex:none;flex:none;width:320px}
 </style>

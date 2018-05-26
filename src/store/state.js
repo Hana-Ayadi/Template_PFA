@@ -1,6 +1,7 @@
 export default {
   top: 0,                 // 添加元件的初始纵坐标
-  zoom: 64,               // 画布缩放百分比
+  zoom: 64, // 画布缩放百分比
+  currentImage: '../../../assets/Diapo1.jpg',
   type: 'page',           // 选中元素类型
   index: -1,              // 选中元素索引
   uuid: null,             // 选中元素uuid
@@ -18,7 +19,7 @@ export default {
   activeElement: {},      // 选中对象，要么是元件，要么是页面
   page: {
     page: true,
-    title: '测试页面',    // 页面 title
+    title: 'Test page',    // 页面 title
     height: 1500,         // 画布高度
     endTime: new Date(),   // 截止日期
     backgroundColor: '#fff'
