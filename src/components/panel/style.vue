@@ -1,5 +1,5 @@
 <template>
-  <div class="panel-wrap" v-if="!activeElement.page && tab === 1">
+  <div class="panel-wrap" v-if=" tab === 1">
     <!-- 公共属性 -->
     <div class="panel-row">
       <icon name="layers" />

@@ -2,14 +2,12 @@
   <div>
     <ul class="tab tab-block panel-tab">
       <li class="tab-item" :class="{active: activeTab === 1}" @click="activeTab = 1"><a>Diapositives</a></li>
+      <li class="tab-item" :class="{active: activeTab === 2}" @click="activeTab = 2"><a>Utilisateurs</a></li>
     </ul>
-     <images/>
+     <images v-if="activeTab === 1"/>
     <!--<page :activeElement="activeElement" :tab="activeTab"></page>-->
-    <appearance :activeElement="activeElement" :tab="activeTab"></appearance>
-    <event :activeElement="activeElement" :tab="activeTab">
-
-    </event>
-
+      <appearance :activeElement="activeElement" :tab="activeTab"></appearance>
+      <appearance :activeElement="activeRect" :tab="activeTab"></appearance>
   </div>
 </template>
 
@@ -39,6 +37,9 @@ export default {
     // Sélectionnez l'objet élément
     activeElement () {
       return this.$store.state.activeElement
+    },
+    activeRect () {
+      return this.$store.state.rect
     }
   }
 }

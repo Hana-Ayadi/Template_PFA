@@ -1,14 +1,6 @@
 <template>
-    <div class="example-full" id="uploader">
-        <button type="button" class="btn btn-danger float-right btn-is-option" @click.prevent="isOption = !isOption">
-            <i class="fa fa-cog" aria-hidden="true"></i>
-            Options
-        </button>
-        <!-- <h1 id="example-title" class="example-title">Full Example</h1> -->
-
-        <div v-show="$refs.upload && $refs.upload.dropActive" class="drop-active">
-            <h3>Drop files to upload</h3>
-        </div>
+    <div class="uploader">
+        <h1 id="example-title" class="example-title">Upload Your Files Here</h1>
         <div class="upload" v-show="!isOption">
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -99,33 +91,28 @@
                             :drop-directory="dropDirectory"
                             :add-index="addIndex"
                             v-model="files"
+
                             @input-filter="inputFilter"
                             @input-file="inputFile"
                             ref="upload">
                         <i class="fa fa-plus"></i>
                         Select
                     </file-upload>
-                    <div class="dropdown-menu">
-                        <label class="dropdown-item" :for="name">Add files</label>
-                        <a class="dropdown-item" href="#" @click="onAddFolader">Add folder</a>
-                        <a class="dropdown-item" href="#" @click.prevent="addData.show = true">Add data</a>
-                    </div>
+
                 </div>
-                <button type="button" class="btn btn-success" v-if="!$refs.upload || !$refs.upload.active" @click.prevent="upload()">
+                <uploader :upload="upload" :uploadOption="uploadOption"></uploader>
+                <toast></toast>
+                <button type="button" class="btn btn-success" v-if="!$refs.upload || !$refs.upload.active" @click.prevent="upload2()">
                     <i class="fa fa-arrow-up" aria-hidden="true"></i>
                     Start Upload
                 </button>
+
                 <button type="button" class="btn btn-danger"  v-else @click.prevent="$refs.upload.active = false">
                     <i class="fa fa-stop" aria-hidden="true"></i>
                     Stop Upload
                 </button>
             </div>
         </div>
-
-
-
-
-
         <div class="option" v-show="isOption">
             <div class="form-group">
                 <label for="accept">Accept:</label>
@@ -141,7 +128,7 @@
                 <label>PUT Upload:</label>
                 <div class="form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="put-action" id="put-action" value="" v-model="putAction"> Off
+                        <input class="form-check-input" type="radio" name="put-action" id="put-action1" value="" v-model="putAction"> Off
                     </label>
                 </div>
                 <div class="form-check">
@@ -208,11 +195,6 @@
                 <button type="button" class="btn btn-primary btn-lg btn-block" @click.prevent="isOption = !isOption">Confirm</button>
             </div>
         </div>
-
-
-
-
-
         <div :class="{'modal-backdrop': true, 'fade': true, show: addData.show}"></div>
         <div :class="{modal: true, fade: true, show: addData.show}" id="modal-add-data" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -227,7 +209,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="name">Name:</label>
-                                <input type="text" class="form-control" required id="name"  placeholder="Please enter a file name" v-model="addData.name">
+                                <input type="text" class="form-control" required id="name2"  placeholder="Please enter a file name" v-model="addData.name">
                                 <small class="form-text text-muted">Such as <code>filename.txt</code></small>
                             </div>
                             <div class="form-group">
@@ -248,12 +230,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
         <div :class="{'modal-backdrop': true, 'fade': true, show: editFile.show}"></div>
         <div :class="{modal: true, fade: true, show: editFile.show}" id="modal-edit-file" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
@@ -297,15 +273,14 @@
             </div>
         </div>
 
-       <!-- <div class="pt-5">
-            Source code: <a href="https://github.com/lian-yue/vue-upload-component/blob/master/docs/views/examples/Full.vue">/docs/views/examples/Full.vue</a>
-        </div>-->
+        <div id="example-1">
+            <router-link to="/slider"></router-link>
+        </div>
 
-        <router-view/>
+
     </div>
 </template>
 <style>
-
     .example-full .btn-group .dropdown-menu {
         display: block;
         visibility: hidden;
@@ -314,21 +289,15 @@
     .example-full .btn-group:hover > .dropdown-menu {
         visibility: visible;
     }
-
     .example-full label.dropdown-item {
         margin-bottom: 0;
     }
-
     .example-full .btn-group .dropdown-toggle {
         margin-right: .1rem
     }
-
-
-
     .example-full .filename {
         margin-bottom: .1rem
     }
-
     .example-full .btn-is-option {
         margin-top: 0.25rem;
     }
@@ -337,24 +306,18 @@
         border-top: 1px solid #e9ecef;
         border-bottom: 1px solid #e9ecef;
     }
-
-
     .example-full .edit-image img {
         max-width: 100%;
     }
-
     .example-full .edit-image-tool {
         margin-top: .6rem;
     }
-
     .example-full .edit-image-tool .btn-group{
         margin-right: .6rem;
     }
-
     .example-full .footer-status {
         padding-top: .4rem;
     }
-
     .example-full .drop-active {
         top: 0;
         bottom: 0;
@@ -366,7 +329,6 @@
         text-align: center;
         background: #000;
     }
-
     .example-full .drop-active h3 {
         margin: -.5em 0 0;
         position: absolute;
@@ -383,263 +345,277 @@
 </style>
 
 <script>
-    import '../../assets/css/bootstrap.min.css'
-    import Cropper from 'cropperjs'
-    import ImageCompressor from '@xkeshi/image-compressor'
-    import FileUpload from 'vue-upload-component'
-
-    export default {
-      components: {
-        FileUpload
-      },
-
-      data () {
-        return {
-          counter: 0,
-          files: [],
-          accept: 'image/png,image/gif,image/jpeg,image/webp,.pptx,.ppt',
-          extensions: 'gif,jpg,jpeg,png,webp,pptx,ppt',
-                // extensions: ['gif', 'jpg', 'jpeg','png', 'webp'],
-                // extensions: /\.(gif|jpe?g|png|webp)$/i,
-          minSize: 1024,
-          size: 1024 * 1024 * 10,
-          multiple: true,
-          directory: false,
-          drop: true,
-          dropDirectory: true,
-          addIndex: false,
-          thread: 3,
-          name: 'file',
-          postAction: '/upload/post',
-          putAction: '/upload/put',
-          headers: {
-            'X-Csrf-Token': 'xxxx'
-          },
-          data: {
-            '_csrf_token': 'xxxxxx'
-          },
-
-          autoCompress: 1024 * 1024,
-          uploadAuto: false,
-          isOption: false,
-
-          addData: {
-            show: false,
-            name: '',
-            type: '',
-            content: ''
-          },
-
-          editFile: {
-            show: false,
-            name: ''
-          }
-        }
-      },
-
-      watch: {
-        'editFile.show' (newValue, oldValue) {
-                // 关闭了 自动删除 error
-          if (!newValue && oldValue) {
-            this.$refs.upload.update(this.editFile.id, { error: this.editFile.error || '' })
-          }
-
-          if (newValue) {
-            this.$nextTick(function () {
-              if (!this.$refs.editImage) {
-                return
-              }
-              let cropper = new Cropper(this.$refs.editImage, {
-                autoCrop: false
-              })
-              this.editFile = {
-                ...this.editFile,
-                cropper
-              }
-            })
-          }
+  import '../../assets/css/bootstrap.min.css'
+  import Cropper from 'cropperjs'
+  import ImageCompressor from '@xkeshi/image-compressor'
+  import FileUpload from 'vue-upload-component'
+  import uploader from './uploader.vue'
+  import store from '../store'
+  import Vue from 'vue'
+  import widget from '../plugins/widget'
+  import loadSprite from '../utils/load-sprite'
+  export default {
+    name: 'vue-page-designer',
+    store,
+    components: {
+      FileUpload,
+      uploader
+    },
+    data () {
+      return {
+        uploadOption: {
+          url: 'http://localhost/PFADeMerde/UploadFiles/web/app_dev.php/test/default/upload.json'
         },
-
-        'addData.show' (show) {
-          if (show) {
-            this.addData.name = ''
-            this.addData.type = ''
-            this.addData.content = ''
-          }
-        }
-      },
-
-      methods: {
-        inputFilter (newFile, oldFile, prevent) {
-          if (newFile && !oldFile) {
-                    // Before adding a file
-                    // 添加文件前
-
-                    // Filter system files or hide files
-                    // 过滤系统文件 和隐藏文件
-            if (/(\/|^)(Thumbs\.db|desktop\.ini|\..+)$/.test(newFile.name)) {
-              return prevent()
-            }
-
-                    // Filter php html js file
-                    // 过滤 php html js 文件
-            if (/\.(php5?|html?|jsx?)$/i.test(newFile.name)) {
-              return prevent()
-            }
-
-                    // Automatic compression
-                    // 自动压缩
-            if (newFile.file && newFile.type.substr(0, 6) === 'image/' && this.autoCompress > 0 && this.autoCompress < newFile.size) {
-              newFile.error = 'compressing'
-              const imageCompressor = new ImageCompressor(null, {
-                convertSize: Infinity,
-                maxWidth: 512,
-                maxHeight: 512
-              })
-              imageCompressor.compress(newFile.file)
-                            .then((file) => {
-                              this.$refs.upload.update(newFile, { error: '', file, size: file.size, type: file.type })
-                            })
-                            .catch((err) => {
-                              this.$refs.upload.update(newFile, { error: err.message || 'compress' })
-                            })
-            }
-          }
-
-          if (newFile && (!oldFile || newFile.file !== oldFile.file)) {
-                    // Create a blob field
-                    // 创建 blob 字段
-            newFile.blob = ''
-            let URL = window.URL || window.webkitURL
-            if (URL && URL.createObjectURL) {
-              newFile.blob = URL.createObjectURL(newFile.file)
-            }
-
-                    // Thumbnails
-                    // 缩略图
-            newFile.thumb = ''
-            if (newFile.blob && newFile.type.substr(0, 6) === 'image/') {
-              newFile.thumb = newFile.blob
-            }
-          }
+        counter: 0,
+        files: [],
+        accept: 'image/png,image/gif,image/jpeg,image/webp,.pptx,.ppt',
+        extensions: 'gif,jpg,jpeg,png,webp,pptx,ppt',
+        // extensions: ['gif', 'jpg', 'jpeg','png', 'webp'],
+        // extensions: /\.(gif|jpe?g|png|webp)$/i,
+        minSize: 1024,
+        size: 1024 * 1024 * 10,
+        multiple: true,
+        directory: false,
+        drop: true,
+        dropDirectory: true,
+        addIndex: false,
+        thread: 3,
+        name: 'file',
+        postAction: '/upload/post',
+        putAction: '/upload/put',
+        headers: {
+          'X-Csrf-Token': 'xxxx'
         },
-
-            // add, update, remove File Event
-        inputFile (newFile, oldFile) {
-          if (newFile && oldFile) {
-                    // update
-
-            if (newFile.active && !oldFile.active) {
-                        // beforeSend
-
-                        // min size
-              if (newFile.size >= 0 && this.minSize > 0 && newFile.size < this.minSize) {
-                this.$refs.upload.update(newFile, { error: 'size' })
-              }
-            }
-
-            if (newFile.progress !== oldFile.progress) {
-                        // progress
-            }
-
-            if (newFile.error && !oldFile.error) {
-                        // error
-            }
-
-            if (newFile.success && !oldFile.success) {
-                        // success
-            }
-          }
-
-          if (!newFile && oldFile) {
-                    // remove
-            if (oldFile.success && oldFile.response.id) {
-                        // $.ajax({
-                        //   type: 'DELETE',
-                        //   url: '/upload/delete?id=' + oldFile.response.id,
-                        // })
-            }
-          }
-
-                // Automatically activate upload
-          if (Boolean(newFile) !== Boolean(oldFile) || oldFile.error !== newFile.error) {
-            if (this.uploadAuto && !this.$refs.upload.active) {
-              this.$refs.upload.active = true
-            }
-          }
+        data: {
+          '_csrf_token': 'xxxxxx'
         },
-        upload () {
-          this.$refs.upload.active = true
-          this.$router.replace('/slider')
-          console.log(this.$router)
+        autoCompress: 1024 * 1024,
+        uploadAuto: false,
+        isOption: false,
+        addData: {
+          show: false,
+          name: '',
+          type: '',
+          content: ''
         },
-        alert (message) {
-          alert(message)
-        },
-
-        onEditFileShow (file) {
-          this.editFile = { ...file, show: true }
-          this.$refs.upload.update(file, { error: 'edit' })
-        },
-
-        onEditorFile () {
-          if (!this.$refs.upload.features.html5) {
-            this.alert('Your browser does not support')
-            this.editFile.show = false
-            return
-          }
-
-          let data = {
-            name: this.editFile.name
-          }
-          if (this.editFile.cropper) {
-            let binStr = atob(this.editFile.cropper.getCroppedCanvas().toDataURL(this.editFile.type).split(',')[1])
-            let arr = new Uint8Array(binStr.length)
-            for (let i = 0; i < binStr.length; i++) {
-              arr[i] = binStr.charCodeAt(i)
-            }
-            data.file = new File([arr], data.name, { type: this.editFile.type })
-            data.size = data.file.size
-          }
-          this.$refs.upload.update(this.editFile.id, data)
-          this.editFile.error = ''
-          this.editFile.show = false
-        },
-
-            // add folader
-        onAddFolader () {
-          if (!this.$refs.upload.features.directory) {
-            this.alert('Your browser does not support')
-            return
-          }
-
-          let input = this.$refs.upload.$el.querySelector('input')
-          input.directory = true
-          input.webkitdirectory = true
-          this.directory = true
-
-          input.onclick = null
-          input.click()
-          input.onclick = (e) => {
-            this.directory = false
-            input.directory = false
-            input.webkitdirectory = false
-          }
-        },
-
-        onAddData () {
-          this.addData.show = false
-          if (!this.$refs.upload.features.html5) {
-            this.alert('Your browser does not support')
-            return
-          }
-
-          let file = new window.File([this.addData.content], this.addData.name, {
-            type: this.addData.type
-          })
-          this.$refs.upload.add(file)
+        editFile: {
+          show: false,
+          name: ''
         }
       }
+    },
+    watch: {
+      'editFile.show' (newValue, oldValue) {
+        // 关闭了 自动删除 error
+        if (!newValue && oldValue) {
+          this.$refs.upload.update(this.editFile.id, { error: this.editFile.error || '' })
+        }
+        if (newValue) {
+          this.$nextTick(function () {
+            if (!this.$refs.editImage) {
+              return
+            }
+            let cropper = new Cropper(this.$refs.editImage, {
+              autoCrop: false
+            })
+            this.editFile = {
+              ...this.editFile,
+              cropper
+            }
+          })
+        }
+      },
+      'addData.show' (show) {
+        if (show) {
+          this.addData.name = ''
+          this.addData.type = ''
+          this.addData.content = ''
+        }
+      }
+    },
+    methods: {
+      dozoom (val) {
+        this.$store.commit('zoom', val)
+      },
+      inputFilter (newFile, oldFile, prevent) {
+        if (newFile && !oldFile) {
+          // Before adding a file
+          // 添加文件前
+          // Filter system files or hide files
+          // 过滤系统文件 和隐藏文件
+          if (/(\/|^)(Thumbs\.db|desktop\.ini|\..+)$/.test(newFile.name)) {
+            return prevent()
+          }
+          // Filter php html js file
+          // 过滤 php html js 文件
+          if (/\.(php5?|html?|jsx?)$/i.test(newFile.name)) {
+            return prevent()
+          }
+          // Automatic compression
+          // 自动压缩
+          if (newFile.file && newFile.type.substr(0, 6) === 'image/' && this.autoCompress > 0 && this.autoCompress < newFile.size) {
+            newFile.error = 'compressing'
+            const imageCompressor = new ImageCompressor(null, {
+              convertSize: Infinity,
+              maxWidth: 512,
+              maxHeight: 512
+            })
+            imageCompressor.compress(newFile.file)
+              .then((file) => {
+                this.$refs.upload.update(newFile, { error: '', file, size: file.size, type: file.type })
+              })
+              .catch((err) => {
+                this.$refs.upload.update(newFile, { error: err.message || 'compress' })
+              })
+          }
+        }
+        if (newFile && (!oldFile || newFile.file !== oldFile.file)) {
+          // Create a blob field
+          // 创建 blob 字段
+          newFile.blob = ''
+          let URL = window.URL || window.webkitURL
+          if (URL && URL.createObjectURL) {
+            newFile.blob = URL.createObjectURL(newFile.file)
+          }
+          // Thumbnails
+          // 缩略图
+          newFile.thumb = ''
+          if (newFile.blob && newFile.type.substr(0, 6) === 'image/') {
+            newFile.thumb = newFile.blob
+          }
+        }
+      },
+      // add, update, remove File Event
+      inputFile (newFile, oldFile) {
+        if (newFile && oldFile) {
+          // update
+          if (newFile.active && !oldFile.active) {
+            // beforeSend
+            // min size
+            if (newFile.size >= 0 && this.minSize > 0 && newFile.size < this.minSize) {
+              this.$refs.upload.update(newFile, { error: 'size' })
+            }
+          }
+          if (newFile.progress !== oldFile.progress) {
+            // progress
+          }
+          if (newFile.error && !oldFile.error) {
+            // error
+          }
+          if (newFile.success && !oldFile.success) {
+            // success
+          }
+        }
+        if (!newFile && oldFile) {
+          // remove
+          if (oldFile.success && oldFile.response.id) {
+            // $.ajax({
+            //   type: 'DELETE',
+            //   url: '/upload/delete?id=' + oldFile.response.id,
+            // })
+          }
+        }
+        // Automatically activate upload
+        if (Boolean(newFile) !== Boolean(oldFile) || oldFile.error !== newFile.error) {
+          if (this.uploadAuto && !this.$refs.upload.active) {
+            this.$refs.upload.active = true
+          }
+        }
+      },
+      upload2 () {
+        this.$refs.upload.active = true
+        this.$router.replace('/slider')
+        console.log(this.$router)
+        console.log('bouton upload')
+      },
+      alert (message) {
+        alert(message)
+      },
+      onEditFileShow (file) {
+        this.editFile = { ...file, show: true }
+        this.$refs.upload.update(file, { error: 'edit' })
+      },
+      onEditorFile () {
+        if (!this.$refs.upload.features.html5) {
+          this.alert('Your browser does not support')
+          this.editFile.show = false
+          return
+        }
+        let data = {
+          name: this.editFile.name
+        }
+        if (this.editFile.cropper) {
+          let binStr = atob(this.editFile.cropper.getCroppedCanvas().toDataURL(this.editFile.type).split(',')[1])
+          let arr = new Uint8Array(binStr.length)
+          for (let i = 0; i < binStr.length; i++) {
+            arr[i] = binStr.charCodeAt(i)
+          }
+          data.file = new File([arr], data.name, { type: this.editFile.type })
+          data.size = data.file.size
+        }
+        this.$refs.upload.update(this.editFile.id, data)
+        this.editFile.error = ''
+        this.editFile.show = false
+      },
+      // add folader
+      onAddFolader () {
+        if (!this.$refs.upload.features.directory) {
+          this.alert('Your browser does not support')
+          return
+        }
+        let input = this.$refs.upload.$el.querySelector('input')
+        input.directory = true
+        input.webkitdirectory = true
+        this.directory = true
+        input.onclick = null
+        input.click()
+        input.onclick = (e) => {
+          this.directory = false
+          input.directory = false
+          input.webkitdirectory = false
+        }
+      },
+      onAddData () {
+        this.addData.show = false
+        if (!this.$refs.upload.features.html5) {
+          this.alert('Your browser does not support')
+          return
+        }
+        let file = new window.File([this.addData.content], this.addData.name, {
+          type: this.addData.type
+        })
+        this.$refs.upload.add(file)
+      }
+    },
+    props: {
+      value: Object,
+      upload: Function
+    },
+    beforeCreate () {
+      // TODO: custom svg path by config
+      loadSprite('//unpkg.com/vue-page-designer/dist/icons.svg', 'svgspriteit')
+    },
+    created () {
+      // 注册 widgets
+      Vue.use(widget, {
+        widgets: this.widgets
+      })
+      // 初始化已有数据
+      if (this.value) {
+        store.replaceState(this.value)
+      }
+      store.$on('save', () => {
+        this.$emit('save', store.state)
+      })
+    },
+    mounted () {
+      // 初始化选中元件（将页面作为初始选中元件）
+      this.$store.commit('initActive')
+    },
+    computed: {
+      zoom () {
+        return this.$store.state.zoom
+      }
     }
+  }
 </script>
-

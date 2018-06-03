@@ -1,62 +1,61 @@
 <template>
     <div id="app">
-        <v-app id="inspire">
-            <v-layout column>
-                <v-flex xs12 sm6 offset-sm3>
-                    <img>
-                        <v-container fluid grid-list-md>
-                            <v-layout row wrap>
-                                <v-flex
-                                        v-bind="{ [`xs${card.flex}`]: true }"
-                                        v-for="card in cards"
-                                        :key="card.title"
-                                >
-                                    <v-card>
-                                        <img
-                                                :src="card.src"
-                                                height="50px"
-                                                width="150px"
-                                                @click="showImage(card.src)"
-                                        />
-                                            <v-container fill-height fluid>
-                                                <v-layout fill-height>
-                                                    <v-flex xs12 align-end flexbox>
-                                                        <span class="headline white--text" v-text="card.title"></span>
-                                                    </v-flex>
-                                                </v-layout>
-                                            </v-container>
-                                    </v-card>
-                                </v-flex>
-                            </v-layout>
-                        </v-container>
-                </v-flex>
-            </v-layout>
-        </v-app>
-    </div>
+        <swiper :options="swiperOption">
+            <swiper-slide v-for="(slide, index) in swiperSlides" :key="index" >
+                <img  src="https://www.w3schools.com/howto/img_fjords.jpg"
+                      @click="showImage" id="im" />
+            </swiper-slide>
+            <div class="swiper-pagination" slot="pagination"></div>
+            <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
+            <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+        </swiper>
+                </div>
+
 </template>
 
 <script>
   import store from '../../store'
   export default {
     store,
-    data: () => ({
-      showForm: false,
-      cards: [
-        { title: 'Diapo 1', src: '../../../assets/Diapo1.jpg', flex: 12 },
-        { title: 'Diapo 2', src: '../../../assets/Diapo2.png', flex: 12 },
-        { title: 'Diapo 3', src: '../../../assets/Diapo3.png', flex: 12 },
-        { title: 'Diapo 4', src: '../../../assets/Diapo4.png', flex: 12 },
-        { title: 'Diapo 5', src: '../../../assets/Diapo5.png', flex: 12 }
-      ]
-    }),
+    data() {
+      return {
+        swiperOption: {
+          slidesPerView: 3,
+          spaceBetween: 30,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+          },
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+          }
+        },
+        swiperSlides: [1, 2, 3, 4, 5]
+      }
+    },
     methods: {
-      showImage(title){
-        document.getElementById("image1").style.backgroundImage='url('+title+')'
+      showImage(){
+        var title=document.getElementById("im").src;
+        document.getElementById("image1").src=title;
         this.$store.commit('setCurrentImage', title)
       }
     }
   }
 </script>
 <style scoped>
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #444!important;
+    }
+    .swiper-slide img {
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
 
+        left: 50%;
+        top: 50%;
+    }
 </style>

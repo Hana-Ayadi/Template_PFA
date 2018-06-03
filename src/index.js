@@ -9,7 +9,6 @@ import icon from './components/icon.vue'
 import './app.scss'
 import router from './router.js'
 import Vuetify from 'vuetify'
-
 const VueUploadComponent = require('vue-upload-component')
 // const VuePageDesigner = require('vue-page-designer')
 Vue.component('slider', slider)

@@ -222,6 +222,9 @@ export default {
   setCurrentImage (state, status) {
     state.currentImage = status
   },
+  setVisibility (state, status) {
+    state.visible = status
+  },
   // 更新数据
   updateData (state, {uuid, key, value}) {
     let widget = state.widgets.find(w => w.uuid === uuid)

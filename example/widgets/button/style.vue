@@ -12,7 +12,7 @@
 
     <div class="panel-row">
       <icon name="image" />
-      <div class="panel-label">Image de fond</div>
+      <div class="panel-label">fond</div>
       <div class="panel-value">
         <div class="panel-preview"
           @click="addPic"

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Store from '../plugins/store'
-
 import state from './state'
 import actions from './actions'
 import mutations from './mutation'

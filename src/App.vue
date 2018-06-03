@@ -13,19 +13,6 @@
                             Home
                         </router-link>
                     </li>
-                    <li class="nav-item">
-                        <router-link active-class="active" class="nav-link" :to="'/documents'">
-                            'header.documents'
-                        </router-link>
-                    </li>
-                    <li class="nav-item">
-                        <router-link active-class="active" class="nav-link" :to="'/examples'">
-                            'header.examples'
-                        </router-link>
-                    </li>
-                    <li class="nav-item">
-                        <a rel="license noopener" class="nav-link" href="https://www.lianyue.org" target="_blank">'header.blog'</a>
-                    </li>
                 </ul>
             </nav>
         </header>

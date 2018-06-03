@@ -2,6 +2,7 @@ export default {
   top: 0,                 // 添加元件的初始纵坐标
   zoom: 64, // 画布缩放百分比
   currentImage: '../../../assets/Diapo1.jpg',
+  visible:'hidden',
   type: 'page',           // 选中元素类型
   index: -1,              // 选中元素索引
   uuid: null,             // 选中元素uuid
@@ -14,9 +15,9 @@ export default {
   moving: false,          // 是否正在移动元件（参考线仅在移动元件时显示）
 
   animation: [],          // 动画库
-  playState: false,       // 动画播放状态
-
-  activeElement: {},      // 选中对象，要么是元件，要么是页面
+  playState: false,       // Statut de lecture d'animation
+  rect: {},
+  activeElement: {},      // Sélectionnez l'objet, soit un composant ou une page
   page: {
     page: true,
     title: 'Test page',    // 页面 title
@@ -24,5 +25,6 @@ export default {
     endTime: new Date(),   // 截止日期
     backgroundColor: '#fff'
   },
-  widgets: []            // 元件
+  widgets: []           // 元件
+
 }

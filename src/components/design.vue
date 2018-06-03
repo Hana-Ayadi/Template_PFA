@@ -2,19 +2,19 @@
     <div class="designe">
         <div class="body container grid-xl">
             <div class="columns col-gapless">
-                <toolbar class="toolbar column" :zoom="zoom" ></toolbar>
+                <toolbar class="toolbar column" :zoom="zoom"></toolbar>
                 <div class="viewport column">
-                    <viewport :zoom="zoom" :currentImage="currentImage"></viewport>
+                    <viewport :zoom="zoom" :currentImage="currentImage" :visible="visible"/>
                     <div class="zoom-wrap">
                         <slider @input="dozoom" :value="zoom" :step="1" :tuning="false"/>
                         <div class="zoom-value">{{ zoom }}%</div>
                     </div>
                 </div>
-                <panel class="control-panel column"></panel>
+                <panel class="control-panel column"/>
             </div>
         </div>
-        <uploader :upload="upload" :uploadOption="uploadOption"></uploader>
-        <toast></toast>
+        <uploader :upload="upload" :uploadOption="uploadOption"/>
+        <toast/>
     </div>
 </template>
 
@@ -38,7 +38,7 @@
     data () {
       return {
         uploadOption: {
-          url: 'https://jsonplaceholder.typicode.com/photos'
+          url: 'http://localhost/PFADeMerde/UploadFiles/web/app_dev.php/test/default/upload.json'
         }
       }
     },
@@ -81,8 +81,10 @@
       },
       currentImage () {
         return this.$store.state.currentImage
+      },
+      visible () {
+        return this.$store.state.visible
       }
-
     }
   }
 </script>

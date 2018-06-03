@@ -3,6 +3,22 @@
     <details open>
       <summary><icon name="list" />Actions</summary>
       <ul class="widget-list columns" @mousedown="updateSrollTop">
+          <li class="menu-item column col-6" @click="showVideo">
+              <img src="../../assets/video.png">
+              <span class="menu-caption">Video</span>
+          </li>
+          <li class="menu-item column col-6" @click="showVideo">
+              <img src="../../assets/connecter.png">
+              <span class="menu-caption">Connecter</span>
+          </li>
+          <li class="menu-item column col-6" @click="showVideo">
+              <img src="../../assets/appeler.png">
+              <span class="menu-caption">Appeler</span>
+          </li>
+          <li class="menu-item column col-6" @click="showVideo">
+              <img src="../../assets/message.png">
+              <span class="menu-caption">Message</span>
+          </li>
         <li class="menu-item column col-6" @click="(e) => {addWidget(e, item)}" v-for="item in widgets" :key="item.name">
           <icon :svg="item.icon" :title="item.title" />
           <span class="menu-caption">{{item.title}}</span>
@@ -36,7 +52,10 @@
         }
       },
       methods: {
-
+        showVideo(){
+          this.$store.commit('setVisibility', 'visible')
+          document.getElementById("video").style.visibility="visible";
+        },
         addWidget (e, item) {
           this.$store.dispatch('addWidget', item)
         },
