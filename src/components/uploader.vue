@@ -72,14 +72,6 @@
             method: 'POST',
             body: data
           }).then(response => { console.log(response.text()) }, () => null)
-              .then(data => {
-                if (data) {
-                  console.log('response')
-                  console.log(data.text())
-                } else {
-                  console.log('Could not load data, Please try again later')
-                }
-              })
         } else {
           alert('error while uploading')
         }
