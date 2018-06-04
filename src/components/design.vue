@@ -13,8 +13,7 @@
                 <panel class="control-panel column"/>
             </div>
         </div>
-        <uploader :upload="upload" :uploadOption="uploadOption"/>
-        <toast/>
+                <toast/>
     </div>
 </template>
 

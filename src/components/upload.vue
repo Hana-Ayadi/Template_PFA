@@ -68,12 +68,12 @@
                 </table>
             </div>
             <div class="example-foorer">
-                <div class="footer-status float-right">
-                    Drop: {{$refs.upload ? $refs.upload.drop : false}},
-                    Active: {{$refs.upload ? $refs.upload.active : false}},
-                    Uploaded: {{$refs.upload ? $refs.upload.uploaded : true}},
-                    Drop active: {{$refs.upload ? $refs.upload.dropActive : false}}
-                </div>
+                <!-- <div class="footer-status float-right">
+                     Drop: {{$refs.upload ? $refs.upload.drop : false}},
+                     Active: {{$refs.upload ? $refs.upload.active : false}},
+                     Uploaded: {{$refs.upload ? $refs.upload.uploaded : true}},
+                     Drop active: {{$refs.upload ? $refs.upload.dropActive : false}}
+                 </div>-->
                 <div class="btn-group">
                     <file-upload
                             class="btn btn-primary dropdown-toggle"
@@ -91,53 +91,56 @@
                             :drop-directory="dropDirectory"
                             :add-index="addIndex"
                             v-model="files"
-
                             @input-filter="inputFilter"
                             @input-file="inputFile"
-                            ref="upload">
+                            ref="upload"
+                    >
                         <i class="fa fa-plus"></i>
                         Select
+
                     </file-upload>
+                    <uploader :upload="upload" :uploadOption="uploadOption"></uploader>
+
 
                 </div>
-                <uploader :upload="upload" :uploadOption="uploadOption"></uploader>
+
                 <toast></toast>
                 <button type="button" class="btn btn-success" v-if="!$refs.upload || !$refs.upload.active" @click.prevent="upload2()">
                     <i class="fa fa-arrow-up" aria-hidden="true"></i>
                     Start Upload
                 </button>
 
-                <button type="button" class="btn btn-danger"  v-else @click.prevent="$refs.upload.active = false">
-                    <i class="fa fa-stop" aria-hidden="true"></i>
-                    Stop Upload
-                </button>
+                <!-- <button type="button" class="btn btn-danger"  v-else @click.prevent="$refs.upload.active = false">
+                     <i class="fa fa-stop" aria-hidden="true"></i>
+                     Stop Upload
+                 </button>-->
             </div>
         </div>
         <div class="option" v-show="isOption">
-            <div class="form-group">
-                <label for="accept">Accept:</label>
-                <input type="text" id="accept" class="form-control" v-model="accept">
-                <small class="form-text text-muted">Allow upload mime type</small>
-            </div>
-            <div class="form-group">
-                <label for="extensions">Extensions:</label>
-                <input type="text" id="extensions" class="form-control" v-model="extensions">
-                <small class="form-text text-muted">Allow upload file extension</small>
-            </div>
-            <div class="form-group">
-                <label>PUT Upload:</label>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="put-action" id="put-action1" value="" v-model="putAction"> Off
-                    </label>
-                </div>
-                <div class="form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="put-action" id="put-action" value="/upload/put" v-model="putAction"> On
-                    </label>
-                </div>
-                <small class="form-text text-muted">After the shutdown, use the POST method to upload</small>
-            </div>
+            <!-- <div class="form-group">
+                 <label for="accept">Accept:</label>
+                 <input type="text" id="accept" class="form-control" v-model="accept">
+                 <small class="form-text text-muted">Allow upload mime type</small>
+             </div>
+             <div class="form-group">
+                 <label for="extensions">Extensions:</label>
+                 <input type="text" id="extensions" class="form-control" v-model="extensions">
+                 <small class="form-text text-muted">Allow upload file extension</small>
+             </div>-->
+            <!--<div class="form-group">
+                 <label>PUT Upload:</label>
+                 <div class="form-check">
+                     <label class="form-check-label">
+                         <input class="form-check-input" type="radio" name="put-action" id="put-action1" value="" v-model="putAction"> Off
+                     </label>
+                 </div>
+                 <div class="form-check">
+                     <label class="form-check-label">
+                         <input class="form-check-input" type="radio" name="put-action" id="put-action" value="/upload/put" v-model="putAction"> On
+                     </label>
+                 </div>
+                 <small class="form-text text-muted">After the shutdown, use the POST method to upload</small>
+             </div>-->
             <div class="form-group">
                 <label for="thread">Thread:</label>
                 <input type="number" max="5" min="1" id="thread" class="form-control" v-model.number="thread">
@@ -151,12 +154,12 @@
                 <label for="minSize">Min size:</label>
                 <input type="number" min="0" id="minSize" class="form-control" v-model.number="minSize">
             </div>
-            <div class="form-group">
+            <!--<div class="form-group">
                 <label for="autoCompress">Automatically compress:</label>
                 <input type="number" min="0" id="autoCompress" class="form-control" v-model.number="autoCompress">
                 <small class="form-text text-muted" v-if="autoCompress > 0">More than {{autoCompress }} files are automatically compressed</small>
                 <small class="form-text text-muted" v-else>Set up automatic compression</small>
-            </div>
+            </div>-->
 
             <div class="form-group">
                 <div class="form-check">
@@ -345,277 +348,279 @@
 </style>
 
 <script>
-  import '../../assets/css/bootstrap.min.css'
-  import Cropper from 'cropperjs'
-  import ImageCompressor from '@xkeshi/image-compressor'
-  import FileUpload from 'vue-upload-component'
-  import uploader from './uploader.vue'
-  import store from '../store'
-  import Vue from 'vue'
-  import widget from '../plugins/widget'
-  import loadSprite from '../utils/load-sprite'
-  export default {
-    name: 'vue-page-designer',
-    store,
-    components: {
-      FileUpload,
-      uploader
-    },
-    data () {
-      return {
-        uploadOption: {
-          url: 'http://localhost/PFADeMerde/UploadFiles/web/app_dev.php/test/default/upload.json'
-        },
-        counter: 0,
-        files: [],
-        accept: 'image/png,image/gif,image/jpeg,image/webp,.pptx,.ppt',
-        extensions: 'gif,jpg,jpeg,png,webp,pptx,ppt',
-        // extensions: ['gif', 'jpg', 'jpeg','png', 'webp'],
-        // extensions: /\.(gif|jpe?g|png|webp)$/i,
-        minSize: 1024,
-        size: 1024 * 1024 * 10,
-        multiple: true,
-        directory: false,
-        drop: true,
-        dropDirectory: true,
-        addIndex: false,
-        thread: 3,
-        name: 'file',
-        postAction: '/upload/post',
-        putAction: '/upload/put',
-        headers: {
-          'X-Csrf-Token': 'xxxx'
-        },
-        data: {
-          '_csrf_token': 'xxxxxx'
-        },
-        autoCompress: 1024 * 1024,
-        uploadAuto: false,
-        isOption: false,
-        addData: {
-          show: false,
-          name: '',
-          type: '',
-          content: ''
-        },
-        editFile: {
-          show: false,
-          name: ''
-        }
-      }
-    },
-    watch: {
-      'editFile.show' (newValue, oldValue) {
-        // 关闭了 自动删除 error
-        if (!newValue && oldValue) {
-          this.$refs.upload.update(this.editFile.id, { error: this.editFile.error || '' })
-        }
-        if (newValue) {
-          this.$nextTick(function () {
-            if (!this.$refs.editImage) {
-              return
-            }
-            let cropper = new Cropper(this.$refs.editImage, {
-              autoCrop: false
-            })
-            this.editFile = {
-              ...this.editFile,
-              cropper
-            }
-          })
+    import '../../assets/css/bootstrap.min.css'
+    import Cropper from 'cropperjs'
+    import ImageCompressor from '@xkeshi/image-compressor'
+    import FileUpload from 'vue-upload-component'
+    import uploader from './uploader.vue'
+    import store from '../store'
+    import Vue from 'vue'
+    import widget from '../plugins/widget'
+    import loadSprite from '../utils/load-sprite'
+    export default {
+      name: 'vue-page-designer',
+      store,
+      components: {
+        FileUpload,
+        uploader
+      },
+      data () {
+        return {
+          uploadOption: {
+            url: 'http://localhost/PFADeMerde/UploadFiles/web/app_dev.php/test/default/upload.json'
+          },
+          counter: 0,
+          files: [],
+          accept: 'image/png,image/gif,image/jpeg,image/webp,.pptx,.ppt',
+          extensions: 'gif,jpg,jpeg,png,webp,pptx,ppt',
+                // extensions: ['gif', 'jpg', 'jpeg','png', 'webp'],
+                // extensions: /\.(gif|jpe?g|png|webp)$/i,
+          minSize: 1024,
+          size: 1024 * 1024 * 10,
+          multiple: true,
+          directory: false,
+          drop: true,
+          dropDirectory: true,
+          addIndex: false,
+          thread: 3,
+          name: 'file',
+          postAction: '/upload/post',
+          putAction: '/upload/put',
+          headers: {
+            'X-Csrf-Token': 'xxxx'
+          },
+          data: {
+            '_csrf_token': 'xxxxxx'
+          },
+          autoCompress: 1024 * 1024,
+          uploadAuto: false,
+          isOption: false,
+          addData: {
+            show: false,
+            name: '',
+            type: '',
+            content: ''
+          },
+          editFile: {
+            show: false,
+            name: ''
+          }
         }
       },
-      'addData.show' (show) {
-        if (show) {
-          this.addData.name = ''
-          this.addData.type = ''
-          this.addData.content = ''
-        }
-      }
-    },
-    methods: {
-      dozoom (val) {
-        this.$store.commit('zoom', val)
-      },
-      inputFilter (newFile, oldFile, prevent) {
-        if (newFile && !oldFile) {
-          // Before adding a file
-          // 添加文件前
-          // Filter system files or hide files
-          // 过滤系统文件 和隐藏文件
-          if (/(\/|^)(Thumbs\.db|desktop\.ini|\..+)$/.test(newFile.name)) {
-            return prevent()
+      watch: {
+        'editFile.show' (newValue, oldValue) {
+                // 关闭了 自动删除 error
+          if (!newValue && oldValue) {
+            this.$refs.upload.update(this.editFile.id, { error: this.editFile.error || '' })
           }
-          // Filter php html js file
-          // 过滤 php html js 文件
-          if (/\.(php5?|html?|jsx?)$/i.test(newFile.name)) {
-            return prevent()
-          }
-          // Automatic compression
-          // 自动压缩
-          if (newFile.file && newFile.type.substr(0, 6) === 'image/' && this.autoCompress > 0 && this.autoCompress < newFile.size) {
-            newFile.error = 'compressing'
-            const imageCompressor = new ImageCompressor(null, {
-              convertSize: Infinity,
-              maxWidth: 512,
-              maxHeight: 512
-            })
-            imageCompressor.compress(newFile.file)
-              .then((file) => {
-                this.$refs.upload.update(newFile, { error: '', file, size: file.size, type: file.type })
+          if (newValue) {
+            this.$nextTick(function () {
+              if (!this.$refs.editImage) {
+                return
+              }
+              let cropper = new Cropper(this.$refs.editImage, {
+                autoCrop: false
               })
-              .catch((err) => {
-                this.$refs.upload.update(newFile, { error: err.message || 'compress' })
-              })
+              this.editFile = {
+                ...this.editFile,
+                cropper
+              }
+            })
           }
-        }
-        if (newFile && (!oldFile || newFile.file !== oldFile.file)) {
-          // Create a blob field
-          // 创建 blob 字段
-          newFile.blob = ''
-          let URL = window.URL || window.webkitURL
-          if (URL && URL.createObjectURL) {
-            newFile.blob = URL.createObjectURL(newFile.file)
-          }
-          // Thumbnails
-          // 缩略图
-          newFile.thumb = ''
-          if (newFile.blob && newFile.type.substr(0, 6) === 'image/') {
-            newFile.thumb = newFile.blob
+        },
+        'addData.show' (show) {
+          if (show) {
+            this.addData.name = ''
+            this.addData.type = ''
+            this.addData.content = ''
           }
         }
       },
-      // add, update, remove File Event
-      inputFile (newFile, oldFile) {
-        if (newFile && oldFile) {
-          // update
-          if (newFile.active && !oldFile.active) {
-            // beforeSend
-            // min size
-            if (newFile.size >= 0 && this.minSize > 0 && newFile.size < this.minSize) {
-              this.$refs.upload.update(newFile, { error: 'size' })
+      methods: {
+        dozoom (val) {
+          this.$store.commit('zoom', val)
+        },
+        inputFilter: function (newFile, oldFile, prevent) {
+          console.log('filter')
+          if (newFile && !oldFile) {
+                    // Before adding a file
+                    // 添加文件前
+                    // Filter system files or hide files
+                    // 过滤系统文件 和隐藏文件
+            if (/(\/|^)(Thumbs\.db|desktop\.ini|\..+)$/.test(newFile.name)) {
+              return prevent()
+            }
+                    // Filter php html js file
+                    // 过滤 php html js 文件
+            if (/\.(php5?|html?|jsx?)$/i.test(newFile.name)) {
+              return prevent()
+            }
+                    // Automatic compression
+                    // 自动压缩
+            if (newFile.file && newFile.type.substr(0, 6) === 'image/' && this.autoCompress > 0 && this.autoCompress < newFile.size) {
+              newFile.error = 'compressing'
+              const imageCompressor = new ImageCompressor(null, {
+                convertSize: Infinity,
+                maxWidth: 512,
+                maxHeight: 512
+              })
+              imageCompressor.compress(newFile.file)
+                            .then((file) => {
+                              this.$refs.upload.update(newFile, {error: '', file, size: file.size, type: file.type})
+                            })
+                            .catch((err) => {
+                              this.$refs.upload.update(newFile, {error: err.message || 'compress'})
+                            })
             }
           }
-          if (newFile.progress !== oldFile.progress) {
-            // progress
+          if (newFile && (!oldFile || newFile.file !== oldFile.file)) {
+                    // Create a blob field
+                    // 创建 blob 字段
+            newFile.blob = ''
+            let URL = window.URL || window.webkitURL
+            if (URL && URL.createObjectURL) {
+              newFile.blob = URL.createObjectURL(newFile.file)
+            }
+                    // Thumbnails
+                    // 缩略图
+            newFile.thumb = ''
+            if (newFile.blob && newFile.type.substr(0, 6) === 'image/') {
+              newFile.thumb = newFile.blob
+            }
           }
-          if (newFile.error && !oldFile.error) {
-            // error
+        },
+            // add, update, remove File Event
+        inputFile (newFile, oldFile) {
+          console.log('input file ')
+          if (newFile && oldFile) {
+                    // update
+            if (newFile.active && !oldFile.active) {
+                        // beforeSend
+                        // min size
+              if (newFile.size >= 0 && this.minSize > 0 && newFile.size < this.minSize) {
+                this.$refs.upload.update(newFile, { error: 'size' })
+              }
+            }
+            if (newFile.progress !== oldFile.progress) {
+                        // progress
+            }
+            if (newFile.error && !oldFile.error) {
+                        // error
+            }
+            if (newFile.success && !oldFile.success) {
+                        // success
+            }
           }
-          if (newFile.success && !oldFile.success) {
-            // success
+          if (!newFile && oldFile) {
+                    // remove
+            if (oldFile.success && oldFile.response.id) {
+                        // $.ajax({
+                        //   type: 'DELETE',
+                        //   url: '/upload/delete?id=' + oldFile.response.id,
+                        // })
+            }
           }
-        }
-        if (!newFile && oldFile) {
-          // remove
-          if (oldFile.success && oldFile.response.id) {
-            // $.ajax({
-            //   type: 'DELETE',
-            //   url: '/upload/delete?id=' + oldFile.response.id,
-            // })
+                // Automatically activate upload
+          if (Boolean(newFile) !== Boolean(oldFile) || oldFile.error !== newFile.error) {
+            if (this.uploadAuto && !this.$refs.upload.active) {
+              this.$refs.upload.active = true
+            }
           }
-        }
-        // Automatically activate upload
-        if (Boolean(newFile) !== Boolean(oldFile) || oldFile.error !== newFile.error) {
-          if (this.uploadAuto && !this.$refs.upload.active) {
-            this.$refs.upload.active = true
+        },
+        upload2 () {
+          this.$refs.upload.active = true
+          this.$router.replace('/slider')
+          console.log(this.$router)
+          console.log('bouton upload')
+        },
+        alert (message) {
+          alert(message)
+        },
+        onEditFileShow (file) {
+          this.editFile = { ...file, show: true }
+          this.$refs.upload.update(file, { error: 'edit' })
+        },
+        onEditorFile () {
+          if (!this.$refs.upload.features.html5) {
+            this.alert('Your browser does not support')
+            this.editFile.show = false
+            return
           }
-        }
-      },
-      upload2 () {
-        this.$refs.upload.active = true
-        this.$router.replace('/slider')
-        console.log(this.$router)
-        console.log('bouton upload')
-      },
-      alert (message) {
-        alert(message)
-      },
-      onEditFileShow (file) {
-        this.editFile = { ...file, show: true }
-        this.$refs.upload.update(file, { error: 'edit' })
-      },
-      onEditorFile () {
-        if (!this.$refs.upload.features.html5) {
-          this.alert('Your browser does not support')
+          let data = {
+            name: this.editFile.name
+          }
+          if (this.editFile.cropper) {
+            let binStr = atob(this.editFile.cropper.getCroppedCanvas().toDataURL(this.editFile.type).split(',')[1])
+            let arr = new Uint8Array(binStr.length)
+            for (let i = 0; i < binStr.length; i++) {
+              arr[i] = binStr.charCodeAt(i)
+            }
+            data.file = new File([arr], data.name, { type: this.editFile.type })
+            data.size = data.file.size
+          }
+          this.$refs.upload.update(this.editFile.id, data)
+          this.editFile.error = ''
           this.editFile.show = false
-          return
-        }
-        let data = {
-          name: this.editFile.name
-        }
-        if (this.editFile.cropper) {
-          let binStr = atob(this.editFile.cropper.getCroppedCanvas().toDataURL(this.editFile.type).split(',')[1])
-          let arr = new Uint8Array(binStr.length)
-          for (let i = 0; i < binStr.length; i++) {
-            arr[i] = binStr.charCodeAt(i)
+        },
+            // add folader
+        onAddFolader () {
+          if (!this.$refs.upload.features.directory) {
+            this.alert('Your browser does not support')
+            return
           }
-          data.file = new File([arr], data.name, { type: this.editFile.type })
-          data.size = data.file.size
+          let input = this.$refs.upload.$el.querySelector('input')
+          input.directory = true
+          input.webkitdirectory = true
+          this.directory = true
+          input.onclick = null
+          input.click()
+          input.onclick = (e) => {
+            this.directory = false
+            input.directory = false
+            input.webkitdirectory = false
+          }
+        },
+        onAddData () {
+          this.addData.show = false
+          if (!this.$refs.upload.features.html5) {
+            this.alert('Your browser does not support')
+            return
+          }
+          let file = new window.File([this.addData.content], this.addData.name, {
+            type: this.addData.type
+          })
+          this.$refs.upload.add(file)
         }
-        this.$refs.upload.update(this.editFile.id, data)
-        this.editFile.error = ''
-        this.editFile.show = false
       },
-      // add folader
-      onAddFolader () {
-        if (!this.$refs.upload.features.directory) {
-          this.alert('Your browser does not support')
-          return
-        }
-        let input = this.$refs.upload.$el.querySelector('input')
-        input.directory = true
-        input.webkitdirectory = true
-        this.directory = true
-        input.onclick = null
-        input.click()
-        input.onclick = (e) => {
-          this.directory = false
-          input.directory = false
-          input.webkitdirectory = false
-        }
+      props: {
+        value: Object,
+        upload: Function
       },
-      onAddData () {
-        this.addData.show = false
-        if (!this.$refs.upload.features.html5) {
-          this.alert('Your browser does not support')
-          return
-        }
-        let file = new window.File([this.addData.content], this.addData.name, {
-          type: this.addData.type
+      beforeCreate () {
+            // TODO: custom svg path by config
+        loadSprite('//unpkg.com/vue-page-designer/dist/icons.svg', 'svgspriteit')
+      },
+      created () {
+            // 注册 widgets
+        Vue.use(widget, {
+          widgets: this.widgets
         })
-        this.$refs.upload.add(file)
-      }
-    },
-    props: {
-      value: Object,
-      upload: Function
-    },
-    beforeCreate () {
-      // TODO: custom svg path by config
-      loadSprite('//unpkg.com/vue-page-designer/dist/icons.svg', 'svgspriteit')
-    },
-    created () {
-      // 注册 widgets
-      Vue.use(widget, {
-        widgets: this.widgets
-      })
-      // 初始化已有数据
-      if (this.value) {
-        store.replaceState(this.value)
-      }
-      store.$on('save', () => {
-        this.$emit('save', store.state)
-      })
-    },
-    mounted () {
-      // 初始化选中元件（将页面作为初始选中元件）
-      this.$store.commit('initActive')
-    },
-    computed: {
-      zoom () {
-        return this.$store.state.zoom
+            // 初始化已有数据
+        if (this.value) {
+          store.replaceState(this.value)
+        }
+        store.$on('save', () => {
+          this.$emit('save', store.state)
+        })
+      },
+      mounted () {
+            // 初始化选中元件（将页面作为初始选中元件）
+        this.$store.commit('initActive')
+      },
+      computed: {
+        zoom () {
+          return this.$store.state.zoom
+        }
       }
     }
-  }
 </script>

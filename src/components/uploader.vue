@@ -1,9 +1,11 @@
 <template>
   <input type="file" accept="image/png, image/jpeg, image/gif,.ppt, .pptx"
          :multiple="multiple ? 'multiple' : false"
-         id="uploader"
+         id="uploader2"
          name="upload[photo]"
-         @change="handleUpload">
+         @change="handleUpload"
+
+        >
 </template>
 
 <script>
@@ -19,14 +21,9 @@
         cb: null // 回调函数
       }
     },
-    computed: {
-      // 图片初始位置纵坐标
-      top () {
-        return this.$store.state.top
-      }
-    },
+    files: [],
     mounted () {
-      this.uploader = document.getElementById('uploader')
+      this.uploader2 = document.getElementById('uploader2')
       console.log('mounted')
       /**
        * 在全局通信中介上注册上传图片自定义事件
@@ -41,23 +38,23 @@
         this.multiple = !!multiple
         this.cb = cb
         setTimeout(() => {
-          this.uploader.click()
+          this.uploader2.click()
         }, 0)
       })
     },
     methods: {
-      // Traitement d'ajout d'image, événement déclencheur：change
+        // Traitement d'ajout d'image, événement déclencheur：change
       handleUpload () {
         console.log('hello from handle')
-        var files = this.uploader.files
-        console.log(files.length)
+        var files = this.uploader2.files
+            // console.log(files.length)
         if (!files || files.length === 0) return
-        files = Array.prototype.slice.call(this.uploader.files)
+        files = Array.prototype.slice.call(this.uploader2.files)
         let uploadFn = this.upload || this.defaultUpload
         uploadFn(files).then(res => {
           console.log('status: ', res.status)
           console.log('hello1')
-          // 图片下载队列完成后执行回调
+                // 图片下载队列完成后执行回调
           new Promise(resolve => {
             this.handleLoadQueue(resolve, res.files)()
           }).then(payload => {
@@ -74,22 +71,30 @@
           return fetch(this.uploadOption.url, {
             method: 'POST',
             body: data
-          })
+          }).then(response => { console.log(response.text()) }, () => null)
+              .then(data => {
+                if (data) {
+                  console.log('response')
+                  console.log(data.text())
+                } else {
+                  console.log('Could not load data, Please try again later')
+                }
+              })
         } else {
           alert('error while uploading')
         }
       },
-      /**
-       * 处理下载队列
-       * 图片按顺序下载完一张再下载下一张，以确保图片数组按上传的顺序排列
-       */
+        /**
+         * 处理下载队列
+         * 图片按顺序下载完一张再下载下一张，以确保图片数组按上传的顺序排列
+         */
       handleLoadQueue (resolve, files) {
         var i = 0
         var len = files.length
         var payload = []
         var download = () => {
-          // 接入后端后，files 应改为回调参数
-          // url = files[i]
+                // 接入后端后，files 应改为回调参数
+                // url = files[i]
           var url = window.URL.createObjectURL(files[i])
           new Promise(resolve => {
             this.getImageWidth(url, resolve)
@@ -101,7 +106,7 @@
               url: url, // Adresse d'aperçu de l'image
               src: 'images/' + files[i].name // Adresse réelle de l'image
             })
-            // 所有图片下载完毕，跳到下一步，否则继续下载
+                    // 所有图片下载完毕，跳到下一步，否则继续下载
             if (++i === len) {
               resolve(payload)
             } else {
@@ -110,26 +115,6 @@
           })
         }
         return download
-      },
-      /**
-       * 使用 new Image 预加载的方式获取图片宽高
-       * 这是一个异步操作，须采用 promise
-       *
-       * @param url { URL | base64 } 图片 url
-       * @param res { Promise resolve }
-       *
-       * @return { Object } 包含图片宽高的对象
-       */
-      getImageWidth (url, res) {
-        var img = new Image()
-        img.src = url
-        img.onload = function () {
-          res({
-            w: Math.round(img.width),
-            h: Math.round(img.height)
-          })
-        }
       }
-    }
-  }
+    }}
 </script>
