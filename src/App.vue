@@ -1,7 +1,7 @@
 <template>
     <div>
         <header id="app" class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <router-link :exact="true" class="navbar-brand" :to="'/' ">'header.logo'</router-link>
+            <router-link :exact="true" class="navbar-brand" :to="'/' ">XperMedia</router-link>
             <button class="navbar-toggler" type="button" @click.prevent="showNav = !showNav">
                 <span class="navbar-toggler-icon"></span>
             </button>

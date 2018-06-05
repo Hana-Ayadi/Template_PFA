@@ -19,7 +19,7 @@
                     <tr v-if="!files.length">
                         <td colspan="7">
                             <div class="text-center p-5">
-                                <h4>Drop files anywhere to upload<br/>or</h4>
+                                <h4>Select files to upload<br/></h4>
                                 <label :for="name" class="btn btn-lg btn-primary">Select Files</label>
                             </div>
                         </td>
@@ -81,7 +81,7 @@
                             :put-action="putAction"
                             :extensions="extensions"
                             :accept="accept"
-                            :multiple="multiple"
+                            :multiple="false"
                             :directory="directory"
                             :size="size || 0"
                             :thread="thread < 1 ? 1 : (thread > 5 ? 5 : thread)"
@@ -624,3 +624,4 @@
       }
     }
 </script>
+

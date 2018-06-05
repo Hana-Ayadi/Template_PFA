@@ -2,46 +2,46 @@
     <div id="app">
         <swiper :options="swiperOption">
             <swiper-slide v-for="(slide, index) in swiperSlides" :key="index" >
-                <img  src="https://www.w3schools.com/howto/img_fjords.jpg"
+                <img  :src="slide"
                       @click="showImage" id="im" />
             </swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
             <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
             <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
         </swiper>
-                </div>
+    </div>
 
 </template>
 
 <script>
-  import store from '../../store'
-  export default {
-    store,
-    data() {
-      return {
-        swiperOption: {
-          slidesPerView: 3,
-          spaceBetween: 30,
-          pagination: {
-            el: '.swiper-pagination',
-            clickable: true
+    import store from '../../store'
+    export default {
+      store,
+      data () {
+        return {
+          swiperOption: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            pagination: {
+              el: '.swiper-pagination',
+              clickable: true
+            },
+            navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev'
+            }
           },
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
-          }
-        },
-        swiperSlides: [1, 2, 3, 4, 5]
-      }
-    },
-    methods: {
-      showImage(){
-        var title=document.getElementById("im").src;
-        document.getElementById("image1").src=title;
-        this.$store.commit('setCurrentImage', title)
+          swiperSlides: store.state.swiperSlides
+        }
+      },
+      methods: {
+        showImage () {
+          var title = document.getElementById('im').src
+          document.getElementById('image1').src = title
+          this.$store.commit('setCurrentImage', title)
+        }
       }
     }
-  }
 </script>
 <style scoped>
     .swiper-slide {
