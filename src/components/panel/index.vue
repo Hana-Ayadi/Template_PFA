@@ -21,30 +21,30 @@
     import ex from './ex'
 
     export default {
-        components: {
-            page: page,
-            ex:ex,
-            images: images,
-            appearance: style,
-            event: event,
-            animation: animation
-        },
+      components: {
+        page: page,
+        ex: ex,
+        images: images,
+        appearance: style,
+        event: event,
+        animation: animation
+      },
 
-        data () {
-            return {
-                activeTab: 1
-            }
-        },
-
-        computed: {
-            // Sélectionnez l'objet élément
-            activeElement () {
-                return this.$store.state.activeElement
-            },
-            activeRect () {
-                return this.$store.state.rect
-            }
+      data () {
+        return {
+          activeTab: 1
         }
+      },
+
+      computed: {
+            // Sélectionnez l'objet élément
+        activeElement () {
+          return this.$store.state.activeElement
+        },
+        activeRect () {
+          return this.$store.state.rect
+        }
+      }
     }
 </script>
 

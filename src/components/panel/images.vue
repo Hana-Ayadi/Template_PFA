@@ -3,7 +3,7 @@
         <swiper :options="swiperOption">
             <swiper-slide v-for="(slide, index) in swiperSlides" :key="index" >
                 <img  :src="slide"
-                      @click="showImage" id="im" />
+                      @click="showImage(index)" id="im" />
             </swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
             <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
@@ -35,10 +35,20 @@
         }
       },
       methods: {
-        showImage () {
-          var title = document.getElementById('im').src
+        showImage (index) {
+          var title = store.state.swiperSlides[index]
           document.getElementById('image1').src = title
           this.$store.commit('setCurrentImage', title)
+            var occupants = window.listUser;
+            console.log(occupants);
+            for (var easyrtcid in occupants) {
+
+                console.log(easyrtcid);
+
+                eventHub.$emit('sendStuffWS',easyrtcid,title);
+
+
+            }
         }
       }
     }

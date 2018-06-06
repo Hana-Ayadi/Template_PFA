@@ -1,5 +1,8 @@
 <template>
     <div id="app" v-cloak>
+        <div id="test_id">
+            <div></div>
+        </div>
         <ul class="users">
             <transition-group name='user'>
                 <li v-for='u in users' :key='u.id' mode="out-in">{{u.name}}</li>
@@ -37,13 +40,19 @@
             },
             shuffle() {
                 this.users.sort(() => Math.random() > 0.5);
+            },
+            setListUser(users) {
+                console.log(users);
+
             }
         },
         created () {
+            console.log("---------");
+            eventHub.$on('setListUser',this.setListUser);
             this.users.push(new User('Guillaume'))
             this.users.push(new User('Vianney'))
             this.users.push(new User('Justin'))
-            this.shuffle()
+
         }
     }
 </script>

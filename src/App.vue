@@ -1,7 +1,8 @@
 <template>
     <div>
         <header id="app" class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <router-link :exact="true" class="navbar-brand" :to="'/' ">XperMedia</router-link>
+            <router-link :exact="true" class="navbar-brand" :to="'/' ">'header.logo'</router-link>
+            <div id="iam">Not yet connected...</div>
             <button class="navbar-toggler" type="button" @click.prevent="showNav = !showNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -134,31 +135,31 @@
     }
 </style>
 <script>
-  export default {
-    data () {
-      return {
-        showLocale: false,
-        showNav: false
-      }
-    },
-    beforeCreate () {
-      /* if (this.$route.params.locale && this.$route.params.locale !== this.$i18n.locale) {
-        this.$i18n.locale = this.$route.params.locale
-      } */
-    },
-    beforeUpdate () {
-      /*  if (this.$route.params.locale && this.$route.params.locale !== this.$i18n.locale) {
-          this.$i18n.locale = this.$route.params.locale
-        } */
-    },
-    computed: {
-      locale () { /*
+    export default {
+        data () {
+            return {
+                showLocale: false,
+                showNav: false
+            }
+        },
+        beforeCreate () {
+            /* if (this.$route.params.locale && this.$route.params.locale !== this.$i18n.locale) {
+              this.$i18n.locale = this.$route.params.locale
+            } */
+        },
+        beforeUpdate () {
+            /*  if (this.$route.params.locale && this.$route.params.locale !== this.$i18n.locale) {
+                this.$i18n.locale = this.$route.params.locale
+              } */
+        },
+        computed: {
+            locale () { /*
         let i18n = this.$i18n
         return i18n.messages[i18n.locale].locale */
-      }
-    },
-    methods: {
-      onLocale (show) { /*
+            }
+        },
+        methods: {
+            onLocale (show) { /*
         if (show) {
           this.showLocale = show
         } else {
@@ -166,7 +167,7 @@
             this.showLocale = show
           }, 128)
       } */
-      }
+            }
+        }
     }
-  }
 </script>

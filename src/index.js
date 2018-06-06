@@ -18,6 +18,7 @@ Vue.component('popbox', popbox)
 Vue.component('icon', icon)
 Vue.component('file-upload', VueUploadComponent)
 // Vue.component('VuePageDesigner', VuePageDesigner)
+window.eventHub = new Vue();
 Vue.use(VueRouter)
 Vue.use(Vuetify)
 new Vue({

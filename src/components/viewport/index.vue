@@ -48,7 +48,8 @@
                        v-on:dragging="resize" :style="{visibility: visible}" id="video" :visible="visible" >
             <h4>top : {{ top }} х left: {{ left }} </h4>
             <h4>width : {{ width }} х height :{{ heightRec }}</h4>
-            <video ref="videoRef" src="" id="video-container" width="100%" controls></video>
+            <proj :width="width" :left="left" :height="heightRec" :top ="top"></proj>
+
         </VueDragResize>
 
       <!-- Ligne de référence -->
@@ -63,8 +64,9 @@
 <!-- Initialize Swiper -->
 <script>
   import Vue from 'vue'
-  import VueDragResize from 'vue-drag-resize';
-  import store from '../../store'
+  import proj from '../panel/proj'
+  import VueDragResize from 'vue-drag-resize'
+import store from '../../store'
 import ref from './ref-lines.vue'
 import control from './size-control.vue'
 import { move } from '../../mixins'
@@ -73,19 +75,20 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 // require styles
 import 'swiper/dist/css/swiper.css'
 
-Vue.use(VueAwesomeSwiper, /* { default global options } */)
+Vue.use(VueAwesomeSwiper /* { default global options } */)
 
 export default {
   name: 'viewport',
   components: {
     ref: ref, // Ligne de référence
     control: control, // Contrôle de taille
-    VueDragResize : VueDragResize
+    VueDragResize: VueDragResize,
+    proj: proj
   },
 
   mixins: [move],
 
-  props: ['zoom','currentImage','visible'],
+  props: ['zoom', 'currentImage', 'visible'],
 
   data () {
     return {
@@ -109,17 +112,16 @@ export default {
   },
 
   mounted () {
-      document.getElementById("video").style.visibility="hidden";
-      this.$refs.videoRef.src = "http://iandevlin.github.io/mdn/video-player/video/tears-of-steel-battle-clip-medium.mp4";
-      //this.$refs.videoRef.play();
-    setInterval(() => {
-      console.log('simulate async data')
-      if (this.swiperSlides.length < 10) {
-        this.swiperSlides.push(this.swiperSlides.length + 1)
-      }
-    }, 3000);
-    // Utiliser l'agent d'événement pour surveiller l'opération sélectionnée du composant
-    document
+    document.getElementById('video').style.visibility = 'hidden'
+    // this.$refs.videoRef.play();
+  setInterval(() => {
+    console.log('simulate async data')
+    if (this.swiperSlides.length < 10) {
+      this.swiperSlides.push(this.swiperSlides.length + 1)
+    }
+  }, 3000)
+  // Utiliser l'agent d'événement pour surveiller l'opération sélectionnée du composant
+  document
       .getElementById('viewport')
       .addEventListener('mousedown', this.handleSelection, false)
 
@@ -158,12 +160,12 @@ export default {
   },
 
   methods: {
-    resize(newRect) {
-      this.width = newRect.width;
-      this.heightRec = newRect.height;
-      this.top = newRect.top;
-      this.left = newRect.left;
-    },
+    resize (newRect) {
+      this.width = newRect.width
+      this.heightRec = newRect.height
+      this.top = newRect.top
+      this.left = newRect.left
+  },
     handleSelection (e) {
       var target = e.target
       var type = target.getAttribute('data-type')
@@ -237,7 +239,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style scoped>
